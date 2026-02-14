@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: swill-pay
+    runtime: python
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: swill-db
+          property: connectionString
+      - key: YMONEY_SHOP_ID
+        value: ваш_shop_id_из_юмани
+      - key: YMONEY_SECRET_KEY
+        value: ваш_secret_key_из_юмани
+      - key: YMONEY_RETURN_URL
+        value: https://swill-pay.onrender.com/donate/success
+
+databases:
+  - name: swill-db
+    databaseName: swill
+    user: swill_user

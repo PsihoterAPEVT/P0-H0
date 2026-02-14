@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SWILL • ВХОД</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body style="display: flex; align-items: center; justify-content: center; min-height: 100vh;">
+    <div style="max-width: 400px; width: 100%; padding: 20px;">
+        <div style="background: #14141f; border: 2px solid #6b21a8; border-radius: 30px; padding: 40px;">
+            <h1 style="text-align: center; margin-bottom: 30px; background: linear-gradient(45deg, #a855f7, #e879f9); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">⚡ ВХОД</h1>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <form method="POST">
+                <div class="form-group">
+                    <label>ЛОГИН</label>
+                    <input type="text" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label>ПАРОЛЬ</label>
+                    <input type="password" name="password" required>
+                </div>
+                <button type="submit" class="btn">🔓 ВОЙТИ</button>
+            </form>
+            
+            <p style="text-align: center; margin-top: 30px; color: #6b7280;">
+                ПАРОЛЬ ПО УМОЛЧАНИЮ: <span style="background: #1e1e2a; padding: 5px 15px; border-radius: 30px; color: #d8b4fe;">swillmaster2025</span>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

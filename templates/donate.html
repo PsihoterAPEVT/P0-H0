@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ПОДДЕРЖАТЬ SWILL</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">⚡ SWILL</div>
+        <a href="{{ url_for('index') }}" class="btn-header">← НА ГЛАВНУЮ</a>
+    </header>
+
+    <div class="donate-container">
+        <h1 style="font-size: 36px; margin-bottom: 20px;">💜 ПОДДЕРЖАТЬ ПРОЕКТ</h1>
+        <p style="color: #a1a1aa; margin-bottom: 40px;">Ваши донаты помогают нам добавлять новый эксклюзивный контент</p>
+        
+        <form method="POST" action="{{ url_for('create_payment') }}">
+            <div class="donate-amounts">
+                <div class="amount-btn" onclick="document.getElementById('amount').value=100">100 ₽</div>
+                <div class="amount-btn" onclick="document.getElementById('amount').value=300">300 ₽</div>
+                <div class="amount-btn" onclick="document.getElementById('amount').value=500">500 ₽</div>
+                <div class="amount-btn" onclick="document.getElementById('amount').value=1000">1000 ₽</div>
+                <div class="amount-btn" onclick="document.getElementById('amount').value=3000">3000 ₽</div>
+                <div class="amount-btn" onclick="document.getElementById('amount').value=5000">5000 ₽</div>
+            </div>
+            
+            <div class="form-group">
+                <label>ИЛИ СВОЯ СУММА (₽)</label>
+                <input type="number" id="amount" name="amount" min="10" value="300" required>
+            </div>
+            
+            <div class="form-group">
+                <label>EMAIL (ДЛЯ КВИТАНЦИИ)</label>
+                <input type="email" name="email" placeholder="your@email.com">
+            </div>
+            
+            <p style="color: #6b7280; font-size: 14px; margin: 20px 0;">
+                💳 Оплата через ЮMoney. Банковские карты, ЮMoney, СБП.
+            </p>
+            
+            <button type="submit" class="btn" style="font-size: 20px; padding: 18px;">
+                💰 ПЕРЕЙТИ К ОПЛАТЕ
+            </button>
+        </form>
+    </div>
+</body>
+</html>

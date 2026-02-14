@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SWILL • ADMIN</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">⚡ SWILL ADMIN</div>
+        <a href="{{ url_for('logout') }}" class="btn-header">🚪 ВЫЙТИ</a>
+    </header>
+
+    <div class="admin-container">
+        <h1 style="font-size: 36px; margin-bottom: 40px;">ПАНЕЛЬ УПРАВЛЕНИЯ</h1>
+        
+        <!-- СТАТИСТИКА -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value">{{ videos|length }}</div>
+                <div>ВИДЕО</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ total_earned }} ₽</div>
+                <div>СОБРАНО</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ donations|length }}</div>
+                <div>ДОНАТОВ</div>
+            </div>
+        </div>
+        
+        <!-- ФЛЕШ СООБЩЕНИЯ -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <!-- ФОРМА ЗАГРУЗКИ -->
+        <div class="upload-form">
+            <h2 style="margin-bottom: 30px;">📤 ЗАГРУЗИТЬ ВИДЕО</h2>
+            <form method="POST" action="{{ url_for('upload_video') }}" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>НАЗВАНИЕ</label>
+                    <input type="text" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label>ОПИСАНИЕ</label>
+                    <textarea name="description" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>ВИДЕО ФАЙЛ (MP4)</label>
+                    <input type="file" name="video" accept="video/*" required>
+                </div>
+                <div class="form-group">
+                    <label>ПРЕВЬЮ (JPG/PNG)</label>
+                    <input type="file" name="thumbnail" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn">🚀 ЗАГРУЗИТЬ</button>
+            </form>
+        </div>
+        
+        <!-- СПИСОК ВИДЕО -->
+        <h2 style="margin: 40px 0 20px;">📋 ВАШИ ВИДЕО</h2>
+        <div style="background: #14141f; border-radius: 20px; overflow: hidden;">
+            {% for video in videos %}
+            <div style="display: grid; grid-template-columns: 80px 1fr 100px 100px; align-items: center; padding: 15px; border-bottom: 1px solid #2d2d3f;">
+                <div>#{{ video.id }}</div>
+                <div>{{ video.title }}</div>
+                <div>{{ video.views }} 👁️</div>
+                <div>
+                    <a href="{{ url_for('delete_video', video_id=video.id) }}" style="color: #ef4444; text-decoration: none;" onclick="return confirm('Удалить видео?')">❌</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- ИСТОРИЯ ДОНАТОВ -->
+        <h2 style="margin: 40px 0 20px;">💰 ПОСЛЕДНИЕ ДОНАТЫ</h2>
+        <div style="background: #14141f; border-radius: 20px; overflow: hidden;">
+            {% for don in donations %}
+            <div style="display: grid; grid-template-columns: 100px 100px 1fr; padding: 15px; border-bottom: 1px solid #2d2d3f;">
+                <div>{{ don.amount }} ₽</div>
+                <div style="color: {% if don.status == 'success' %}#4ade80{% else %}#fbbf24{% endif %}">{{ don.status }}</div>
+                <div>{{ don.created_at.strftime('%d.%m.%Y %H:%M') }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
