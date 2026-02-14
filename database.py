@@ -4,13 +4,15 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
-class User(db.Model):
-    """Администратор сайта (только 1)"""
-    __tablename__ = 'users'
+# ВСЕ МОДЕЛИ ДОЛЖНЫ БЫТЬ ТОЛЬКО ЗДЕСЬ!
+
+class AdminUser(db.Model):
+    """Администратор сайта"""
+    __tablename__ = 'admin_users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
-    is_admin = db.Column(db.Boolean, default=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 class Video(db.Model):
     """Видео контент"""
@@ -18,8 +20,8 @@ class Video(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    filename = db.Column(db.String(200), nullable=False)  # Имя файла видео
-    thumbnail = db.Column(db.String(200), nullable=False)  # Имя файла превью
+    filename = db.Column(db.String(200), nullable=False)
+    thumbnail = db.Column(db.String(200), nullable=False)
     views = db.Column(db.Integer, default=0)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     is_active = db.Column(db.Boolean, default=True)
@@ -30,6 +32,6 @@ class Donation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Float, nullable=False)
     email = db.Column(db.String(100))
-    payment_id = db.Column(db.String(100), unique=True)  # ID платежа от ЮMoney
-    status = db.Column(db.String(20), default='pending')  # pending, success, failed
+    payment_id = db.Column(db.String(100), unique=True)
+    status = db.Column(db.String(20), default='pending')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
