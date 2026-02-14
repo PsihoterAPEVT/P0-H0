@@ -8,7 +8,7 @@ import requests
 from dotenv import load_dotenv
 
 from database import db, Video, Donation
-from models import AdminUser
+from database import AdminUser, Video, Donation, db
 
 # Загрузка переменных окружения
 load_dotenv()
@@ -206,4 +206,5 @@ def api_stats():
 # ============= ЗАПУСК =============
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
+
     app.run(host='0.0.0.0', port=port, debug=True)
